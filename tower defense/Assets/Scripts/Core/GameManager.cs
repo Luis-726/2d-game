@@ -28,7 +28,7 @@ namespace TowerDefense.Core
         [SerializeField] private int startingLives = 25;
 
         [Tooltip("Starting player coins. Specified as 0 in design document (players click enemies first).")]
-        [SerializeField] private int startingCoins = 0;
+        [SerializeField] private int startingCoins = 100;
 
         [Header("Runtime Stats")]
         [SerializeField] private int currentLives;

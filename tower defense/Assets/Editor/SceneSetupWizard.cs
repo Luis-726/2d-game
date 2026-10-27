@@ -477,14 +477,25 @@ namespace TowerDefense.Editor
             // Top Bar
             GameObject topBar = CreateUIPanel(canvasObj.transform, "TopBar", new Vector2(0, 1), new Vector2(1, 1), new Vector2(0.5f, 1), new Vector2(0, 0), new Vector2(0, 90), new Color(0.1f, 0.1f, 0.15f, 0.9f));
 
-            TextMeshProUGUI livesText = CreateUIText(topBar.transform, "LivesText", "Lives: 25", 28, new Vector2(0, 0.5f), new Vector2(250, 60), new Vector2(180, 0), TextAlignmentOptions.Left);
-            TextMeshProUGUI coinsText = CreateUIText(topBar.transform, "CoinsText", "Coins: 0", 28, new Vector2(0.35f, 0.5f), new Vector2(250, 60), Vector2.zero, TextAlignmentOptions.Left);
-            TextMeshProUGUI waveText = CreateUIText(topBar.transform, "WaveText", "Wave: 1 / 5", 28, new Vector2(0.65f, 0.5f), new Vector2(250, 60), Vector2.zero, TextAlignmentOptions.Left);
-            Button nextWaveBtn = CreateUIButton(topBar.transform, "NextWaveButton", "Start Wave", new Vector2(0.9f, 0.5f), new Vector2(200, 50), new Color(0.85f, 0.5f, 0.15f));
+            TextMeshProUGUI livesText = CreateUIText(topBar.transform, "LivesText", "Lives: 25", 28, new Vector2(0, 0.5f), new Vector2(250, 60), new Vector2(160, 0), TextAlignmentOptions.Left);
+            TextMeshProUGUI coinsText = CreateUIText(topBar.transform, "CoinsText", "Coins: 0", 28, new Vector2(0.28f, 0.5f), new Vector2(200, 60), Vector2.zero, TextAlignmentOptions.Left);
+            TextMeshProUGUI waveText = CreateUIText(topBar.transform, "WaveText", "Wave: 1 / 5", 28, new Vector2(0.50f, 0.5f), new Vector2(180, 60), Vector2.zero, TextAlignmentOptions.Left);
+
+            // Wave Progress Bar
+            GameObject barBg = CreateUIPanel(topBar.transform, "WaveProgressBar", new Vector2(0.70f, 0.5f), new Vector2(0.70f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(240, 22), new Color(0.08f, 0.08f, 0.12f, 1f));
+            GameObject barFill = CreateUIPanel(barBg.transform, "Fill", new Vector2(0, 0), new Vector2(1, 1), new Vector2(0, 0.5f), Vector2.zero, Vector2.zero, new Color(0.2f, 0.75f, 0.95f, 1f));
+            Image fillImg = barFill.GetComponent<Image>();
+            fillImg.type = Image.Type.Filled;
+            fillImg.fillMethod = Image.FillMethod.Horizontal;
+            fillImg.fillOrigin = 0;
+            fillImg.fillAmount = 0f;
+
+            Button nextWaveBtn = CreateUIButton(topBar.transform, "NextWaveButton", "Start Wave", new Vector2(0.91f, 0.5f), new Vector2(180, 50), new Color(0.85f, 0.5f, 0.15f));
 
             SetPrivateField(uiMgr, "livesText", livesText);
             SetPrivateField(uiMgr, "coinsText", coinsText);
             SetPrivateField(uiMgr, "waveText", waveText);
+            SetPrivateField(uiMgr, "waveProgressBarFill", fillImg);
             SetPrivateField(uiMgr, "nextWaveButton", nextWaveBtn);
 
             // Bottom Tower Tray

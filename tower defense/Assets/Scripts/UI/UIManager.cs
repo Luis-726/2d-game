@@ -8,6 +8,7 @@ namespace TowerDefense.UI
 {
     /// <summary>
     /// Manages the heads-up display (HUD), tower selection tray, wave buttons, and game state panels.
+    /// Includes real-time Wave Progress Bar visualization.
     /// </summary>
     public class UIManager : MonoBehaviour
     {
@@ -18,6 +19,8 @@ namespace TowerDefense.UI
         [SerializeField] private TextMeshProUGUI coinsText;
         [SerializeField] private TextMeshProUGUI waveText;
         [SerializeField] private Button nextWaveButton;
+        [SerializeField] private Slider waveProgressBar;
+        [SerializeField] private Image waveProgressBarFill;
 
         [Header("Tower Purchase Buttons")]
         [SerializeField] private Button archerButton;
@@ -63,6 +66,7 @@ namespace TowerDefense.UI
             if (WaveManager.Instance != null)
             {
                 WaveManager.Instance.OnWaveChanged += UpdateWaveUI;
+                WaveManager.Instance.OnWaveProgressChanged += UpdateWaveProgressBar;
             }
 
             if (gameOverPanel != null) gameOverPanel.SetActive(false);
@@ -82,6 +86,7 @@ namespace TowerDefense.UI
             if (WaveManager.Instance != null)
             {
                 WaveManager.Instance.OnWaveChanged -= UpdateWaveUI;
+                WaveManager.Instance.OnWaveProgressChanged -= UpdateWaveProgressBar;
             }
         }
 
@@ -162,6 +167,18 @@ namespace TowerDefense.UI
             if (waveText != null)
             {
                 waveText.text = $"Wave: {currentWave} / {totalWaves}";
+            }
+        }
+
+        private void UpdateWaveProgressBar(float progress)
+        {
+            if (waveProgressBar != null)
+            {
+                waveProgressBar.value = progress;
+            }
+            if (waveProgressBarFill != null)
+            {
+                waveProgressBarFill.fillAmount = progress;
             }
         }
 
