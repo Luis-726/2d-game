@@ -1,0 +1,16 @@
+DESIGN CHANGES LOG
+==================
+Project: Tower Defense
+Course Project Implementation Notes
+
+Original Design Summary:
+- Top-down 2D Tower Defense inspired by Bloons TD.
+- Mouse-driven: Left click to manually damage enemies (1+ dmg), left click to place towers / interact with UI, right click to cancel tower selection.
+- 3 Towers: Archer (single-target, medium range), Warrior (omnidirectional, close range), Mage (area-of-effect splash).
+- 3 Enemies: Skeleton (fast, low HP), Zombie (medium speed, medium HP), Orc (slow, high HP).
+- Mechanics: Enemies walk along a path of waypoints; player clicks to damage enemies (with click rate limit / cooldown to prevent auto-clicker exploits); towers target enemies (configurable targeting e.g. First / Strongest); 25 base health, 0 initial coins (relying on manual clicking first wave).
+- Waves loop / advance, win / game over screens with restart.
+
+Changes / Clarifications from One-Pager:
+- Initial project template: Created using Unity 6 Universal 2D (URP) for optimized 2D sprite rendering, orthographic projection, and 2D particle/light effects.
+- (Further changes will be documented here as development progresses).
