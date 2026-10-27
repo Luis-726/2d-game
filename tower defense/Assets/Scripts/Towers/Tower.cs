@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TowerDefense.Audio;
 using TowerDefense.Enemies;
@@ -8,6 +9,7 @@ namespace TowerDefense.Towers
     /// <summary>
     /// Base class representing all placeable defensive towers.
     /// Supports Archer (single-target ranged), Warrior (omnidirectional melee cleave), and Mage (AoE splash).
+    /// Provides upgrade progression, targeting priority cycling, and refund selling.
     /// </summary>
     public class Tower : MonoBehaviour
     {
@@ -17,6 +19,8 @@ namespace TowerDefense.Towers
         [SerializeField] private TowerType towerType = TowerType.Archer;
         [SerializeField] private string towerName = "Archer Tower";
         [SerializeField] private int buildCost = 15;
+        [SerializeField] private int currentLevel = 1;
+        [SerializeField] private int maxLevel = 3;
 
         [Header("Combat Attributes")]
         [SerializeField] private float range = 3.5f;
@@ -39,11 +43,20 @@ namespace TowerDefense.Towers
         private float attackCooldown = 0f;
         private Transform currentTarget;
 
+        public event Action OnTowerUpdated;
+
         public TowerType Type => towerType;
         public string TowerName => towerName;
         public int BuildCost => buildCost;
+        public int Level => currentLevel;
+        public int MaxLevel => maxLevel;
         public float Range => range;
+        public float AttacksPerSecond => attacksPerSecond;
+        public int Damage => damage;
         public TargetPriority Priority => priority;
+        public bool CanUpgrade => currentLevel < maxLevel;
+        public int UpgradeCost => Mathf.RoundToInt(buildCost * 0.75f * currentLevel);
+        public int SellValue => Mathf.RoundToInt(buildCost * 0.6f + (currentLevel - 1) * buildCost * 0.35f);
 
         private void OnEnable()
         {
@@ -209,11 +222,59 @@ namespace TowerDefense.Towers
         }
 
         /// <summary>
-        /// Changes the active targeting priority mode.
+        /// Upgrades this tower to the next level, boosting its stats and updating its range circle.
         /// </summary>
+        public bool Upgrade()
+        {
+            if (!CanUpgrade) return false;
+
+            damage += Mathf.Max(1, Mathf.RoundToInt(damage * 0.35f));
+            range += 0.45f;
+            attacksPerSecond += 0.2f;
+            currentLevel++;
+
+            SetupRangeCircle();
+            AudioManager.Instance?.PlayTowerPlacedSound();
+            OnTowerUpdated?.Invoke();
+            return true;
+        }
+
+        /// <summary>
+        /// Cycles through target priority modes (First -> Strongest -> Last -> Closest).
+        /// </summary>
+        public void CycleTargetPriority()
+        {
+            switch (priority)
+            {
+                case TargetPriority.First:
+                    priority = TargetPriority.Strongest;
+                    break;
+                case TargetPriority.Strongest:
+                    priority = TargetPriority.Last;
+                    break;
+                case TargetPriority.Last:
+                    priority = TargetPriority.Closest;
+                    break;
+                case TargetPriority.Closest:
+                    priority = TargetPriority.First;
+                    break;
+            }
+            OnTowerUpdated?.Invoke();
+        }
+
+        /// <summary>
+        /// Sells this tower, refunding part of its gold cost to the player.
+        /// </summary>
+        public void Sell()
+        {
+            Core.GameManager.Instance?.AddCoins(SellValue);
+            Destroy(gameObject);
+        }
+
         public void SetTargetPriority(TargetPriority newPriority)
         {
             priority = newPriority;
+            OnTowerUpdated?.Invoke();
         }
 
         public void SetRangeCircleVisible(bool visible)
@@ -224,7 +285,7 @@ namespace TowerDefense.Towers
             }
         }
 
-        private void SetupRangeCircle()
+        public void SetupRangeCircle()
         {
             if (rangeCircleRenderer == null)
             {

@@ -372,6 +372,10 @@ namespace TowerDefense.Editor
             GameObject placementObj = new GameObject("TowerPlacementManager");
             TowerPlacementManager placementMgr = placementObj.AddComponent<TowerPlacementManager>();
 
+            // TowerSelectionManager
+            GameObject selectMgrObj = new GameObject("TowerSelectionManager");
+            TowerSelectionManager selectMgr = selectMgrObj.AddComponent<TowerSelectionManager>();
+
             // WaveManager
             GameObject waveMgrObj = new GameObject("WaveManager");
             WaveManager waveMgr = waveMgrObj.AddComponent<WaveManager>();
@@ -485,6 +489,37 @@ namespace TowerDefense.Editor
             GameObject hintBox = CreateUIPanel(canvasObj.transform, "ControlsHint", new Vector2(0.5f, 0.82f), new Vector2(0.5f, 0.82f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(700, 90), new Color(0.05f, 0.05f, 0.08f, 0.88f));
             CreateUIText(hintBox.transform, "HintLabel", "Left Click enemies to attack! | Click Tower to place | Right Click cancels\nDefeat enemies to earn coins for towers!", 22, new Vector2(0.5f, 0.5f), new Vector2(680, 80), Vector2.zero, TextAlignmentOptions.Center);
             SetPrivateField(uiMgr, "startControlsHintPanel", hintBox);
+
+            // Tower Info Panel (Inspector on right side)
+            GameObject infoPanel = CreateUIPanel(canvasObj.transform, "TowerInfoPanel", new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(-20, 0), new Vector2(340, 260), new Color(0.12f, 0.12f, 0.18f, 0.95f));
+
+            TextMeshProUGUI infoTitle = CreateUIText(infoPanel.transform, "InfoTitle", "Archer Tower (Lv 1)", 24, new Vector2(0.42f, 0.85f), new Vector2(240, 35), Vector2.zero, TextAlignmentOptions.Left);
+            Button closeBtn = CreateUIButton(infoPanel.transform, "CloseBtn", "X", new Vector2(0.92f, 0.85f), new Vector2(36, 36), new Color(0.6f, 0.2f, 0.2f));
+
+            TextMeshProUGUI statsText = CreateUIText(infoPanel.transform, "StatsText", "Dmg: 3 | Range: 4.0 | Rate: 1.2/s", 18, new Vector2(0.5f, 0.65f), new Vector2(310, 40), Vector2.zero, TextAlignmentOptions.Center);
+
+            Button targetBtn = CreateUIButton(infoPanel.transform, "TargetBtn", "Target: First", new Vector2(0.5f, 0.44f), new Vector2(290, 42), new Color(0.25f, 0.45f, 0.7f));
+            TextMeshProUGUI targetBtnText = targetBtn.GetComponentInChildren<TextMeshProUGUI>();
+
+            Button upgradeBtn = CreateUIButton(infoPanel.transform, "UpgradeBtn", "Upgrade (11g)", new Vector2(0.32f, 0.18f), new Vector2(160, 48), new Color(0.2f, 0.65f, 0.3f));
+            TextMeshProUGUI upgradeBtnText = upgradeBtn.GetComponentInChildren<TextMeshProUGUI>();
+
+            Button sellBtn = CreateUIButton(infoPanel.transform, "SellBtn", "Sell (+9g)", new Vector2(0.78f, 0.18f), new Vector2(120, 48), new Color(0.65f, 0.3f, 0.2f));
+            TextMeshProUGUI sellBtnText = sellBtn.GetComponentInChildren<TextMeshProUGUI>();
+
+            TowerInfoUI infoUI = canvasObj.AddComponent<TowerInfoUI>();
+            SetPrivateField(infoUI, "panelRoot", infoPanel);
+            SetPrivateField(infoUI, "titleText", infoTitle);
+            SetPrivateField(infoUI, "statsText", statsText);
+            SetPrivateField(infoUI, "targetButton", targetBtn);
+            SetPrivateField(infoUI, "targetButtonText", targetBtnText);
+            SetPrivateField(infoUI, "upgradeButton", upgradeBtn);
+            SetPrivateField(infoUI, "upgradeButtonText", upgradeBtnText);
+            SetPrivateField(infoUI, "sellButton", sellBtn);
+            SetPrivateField(infoUI, "sellButtonText", sellBtnText);
+            SetPrivateField(infoUI, "closeButton", closeBtn);
+
+            infoPanel.SetActive(false);
 
             // Game Over Modal
             GameObject goPanel = CreateUIPanel(canvasObj.transform, "GameOverPanel", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(500, 320), new Color(0.2f, 0.05f, 0.05f, 0.96f));

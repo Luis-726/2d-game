@@ -15,3 +15,8 @@ Changes / Clarifications from One-Pager:
 1. Universal 2D (URP): Project initialized with Unity 6 Universal 2D for pixel-perfect orthographic rendering and 2D sprite shaders.
 2. Lane Placement Protection: Implemented continuous polyline lane distance validation (`WaypointPath.IsPositionOnPath`). The placement preview indicator turns RED when hovered over the enemy walking lane or within close proximity of other towers, strictly preventing towers from blocking or stacking onto the road. Towers can only be placed on open terrain (preview turns GREEN).
 3. Hybrid Input Handling: Created an `InputHelper` utility supporting both Unity's New Input System and legacy input polling to ensure smooth, cross-device mouse interaction without runtime exceptions.
+4. Interactive Tower Inspection & Upgrade Panel: Added `TowerSelectionManager` and `TowerInfoUI`. Players can click any placed tower to:
+   - View its dynamic range circle.
+   - Cycle target priorities in real time (`First` -> `Strongest` -> `Last` -> `Closest`).
+   - Upgrade damage, range, and attack speed for gold across 3 upgrade levels.
+   - Sell the tower for a proportional coin refund.
