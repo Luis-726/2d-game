@@ -1,6 +1,7 @@
 using System;
 using TowerDefense.Core;
 using TowerDefense.Enemies;
+using TowerDefense.UI;
 using UnityEngine;
 
 namespace TowerDefense.Towers
@@ -8,10 +9,27 @@ namespace TowerDefense.Towers
     /// <summary>
     /// Coordinates clicking on placed towers in the game world to inspect, upgrade, or re-target them.
     /// Handles range circle visualizer toggling and deselects upon right-click or clicking empty terrain.
+    /// Self-instantiates if missing in the active scene.
     /// </summary>
     public class TowerSelectionManager : MonoBehaviour
     {
-        public static TowerSelectionManager Instance { get; private set; }
+        private static TowerSelectionManager _instance;
+        public static TowerSelectionManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = FindFirstObjectByType<TowerSelectionManager>();
+                    if (_instance == null)
+                    {
+                        GameObject obj = new GameObject("TowerSelectionManager");
+                        _instance = obj.AddComponent<TowerSelectionManager>();
+                    }
+                }
+                return _instance;
+            }
+        }
 
         public event Action<Tower> OnTowerSelected;
         public event Action OnTowerDeselected;
@@ -23,12 +41,12 @@ namespace TowerDefense.Towers
 
         private void Awake()
         {
-            if (Instance != null && Instance != this)
+            if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
                 return;
             }
-            Instance = this;
+            _instance = this;
             mainCamera = Camera.main;
         }
 
@@ -102,6 +120,16 @@ namespace TowerDefense.Towers
             {
                 DeselectTower();
                 return;
+            }
+
+            // Ensure UI is active and listening
+            if (TowerInfoUI.Instance == null)
+            {
+                Canvas canvas = FindFirstObjectByType<Canvas>();
+                if (canvas != null)
+                {
+                    canvas.gameObject.AddComponent<TowerInfoUI>();
+                }
             }
 
             if (currentSelectedTower != null)

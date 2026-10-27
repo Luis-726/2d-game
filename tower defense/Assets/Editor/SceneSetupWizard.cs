@@ -61,10 +61,12 @@ namespace TowerDefense.Editor
                 hitMarkerPrefab
             );
 
+            var activeScene = EditorSceneManager.GetActiveScene();
+            EditorSceneManager.MarkSceneDirty(activeScene);
+            EditorSceneManager.SaveScene(activeScene);
             AssetDatabase.SaveAssets();
-            EditorSceneManager.SaveOpenScenes();
 
-            Debug.Log("[SceneSetupWizard] Complete Tower Defense game scene constructed and ready to play!");
+            Debug.Log("[SceneSetupWizard] Complete Tower Defense game scene constructed and saved to disk!");
         }
 
         private static GameObject CreateHitMarkerPrefab(string dir)
@@ -283,6 +285,14 @@ namespace TowerDefense.Editor
             Enemy skeleton, Enemy zombie, Enemy orc,
             GameObject hitMarkerPrefab)
         {
+            // Clean up old scene objects before rebuilding
+            string[] cleanupNames = { "WaypointPath", "PathVisuals", "BaseCastle", "GameManager", "AudioManager", "PlayerClickManager", "TowerPlacementManager", "TowerSelectionManager", "WaveManager", "Canvas", "EventSystem" };
+            foreach (string objName in cleanupNames)
+            {
+                GameObject existing = GameObject.Find(objName);
+                if (existing != null) Object.DestroyImmediate(existing);
+            }
+
             // Clear or repurpose camera
             Camera cam = Camera.main;
             if (cam == null)

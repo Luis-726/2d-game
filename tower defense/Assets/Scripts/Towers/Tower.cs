@@ -68,6 +68,13 @@ namespace TowerDefense.Towers
             PlacedTowers.Remove(this);
         }
 
+        private void OnMouseDown()
+        {
+            if (Core.InputHelper.IsPointerOverUI()) return;
+            if (TowerPlacementManager.Instance != null && TowerPlacementManager.Instance.IsPlacingTower) return;
+            TowerSelectionManager.Instance?.SelectTower(this);
+        }
+
         private void Start()
         {
             SetupRangeCircle();
