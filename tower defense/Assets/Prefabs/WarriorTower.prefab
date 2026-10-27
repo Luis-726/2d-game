@@ -265,6 +265,8 @@ MonoBehaviour:
   towerType: 1
   towerName: Warrior Bastion
   buildCost: 20
+  currentLevel: 1
+  maxLevel: 3
   range: 2.2
   attacksPerSecond: 1.4
   damage: 4

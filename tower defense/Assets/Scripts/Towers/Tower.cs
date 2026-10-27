@@ -301,6 +301,7 @@ namespace TowerDefense.Towers
             if (rangeCircleRenderer == null) return;
 
             rangeCircleRenderer.useWorldSpace = false;
+            rangeCircleRenderer.sortingOrder = 15; // Render on top of map tiles and path
             rangeCircleRenderer.positionCount = circleSegments + 1;
             rangeCircleRenderer.loop = true;
 
@@ -311,7 +312,7 @@ namespace TowerDefense.Towers
             {
                 float x = range * Mathf.Cos(theta);
                 float y = range * Mathf.Sin(theta);
-                rangeCircleRenderer.SetPosition(i, new Vector3(x, y, 0));
+                rangeCircleRenderer.SetPosition(i, new Vector3(x, y, -0.05f));
                 theta += deltaTheta;
             }
         }

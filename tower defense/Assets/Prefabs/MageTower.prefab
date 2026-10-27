@@ -265,6 +265,8 @@ MonoBehaviour:
   towerType: 2
   towerName: Mage Spire
   buildCost: 30
+  currentLevel: 1
+  maxLevel: 3
   range: 3.6
   attacksPerSecond: 0.75
   damage: 6

@@ -191,8 +191,9 @@ namespace TowerDefense.Editor
             sr.sortingOrder = 6;
 
             LineRenderer lr = obj.AddComponent<LineRenderer>();
-            lr.startWidth = 0.04f;
-            lr.endWidth = 0.04f;
+            lr.startWidth = 0.05f;
+            lr.endWidth = 0.05f;
+            lr.sortingOrder = 15;
             lr.material = new Material(Shader.Find("Sprites/Default"));
             lr.startColor = new Color(0.3f, 1f, 0.4f, 0.5f);
             lr.endColor = new Color(0.3f, 1f, 0.4f, 0.5f);
@@ -224,8 +225,9 @@ namespace TowerDefense.Editor
             sr.sortingOrder = 6;
 
             LineRenderer lr = obj.AddComponent<LineRenderer>();
-            lr.startWidth = 0.04f;
-            lr.endWidth = 0.04f;
+            lr.startWidth = 0.05f;
+            lr.endWidth = 0.05f;
+            lr.sortingOrder = 15;
             lr.material = new Material(Shader.Find("Sprites/Default"));
             lr.startColor = new Color(1f, 0.3f, 0.3f, 0.5f);
             lr.endColor = new Color(1f, 0.3f, 0.3f, 0.5f);
@@ -257,8 +259,9 @@ namespace TowerDefense.Editor
             sr.sortingOrder = 6;
 
             LineRenderer lr = obj.AddComponent<LineRenderer>();
-            lr.startWidth = 0.04f;
-            lr.endWidth = 0.04f;
+            lr.startWidth = 0.05f;
+            lr.endWidth = 0.05f;
+            lr.sortingOrder = 15;
             lr.material = new Material(Shader.Find("Sprites/Default"));
             lr.startColor = new Color(0.8f, 0.3f, 1f, 0.5f);
             lr.endColor = new Color(0.8f, 0.3f, 1f, 0.5f);

@@ -265,6 +265,8 @@ MonoBehaviour:
   towerType: 0
   towerName: Archer Tower
   buildCost: 15
+  currentLevel: 1
+  maxLevel: 3
   range: 4
   attacksPerSecond: 1.2
   damage: 3
