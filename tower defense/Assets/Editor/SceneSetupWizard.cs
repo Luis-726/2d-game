@@ -288,12 +288,12 @@ namespace TowerDefense.Editor
             Enemy skeleton, Enemy zombie, Enemy orc,
             GameObject hitMarkerPrefab)
         {
-            // Clean up old scene objects before rebuilding
-            string[] cleanupNames = { "WaypointPath", "PathVisuals", "BaseCastle", "GameManager", "AudioManager", "PlayerClickManager", "TowerPlacementManager", "TowerSelectionManager", "WaveManager", "Canvas", "EventSystem" };
-            foreach (string objName in cleanupNames)
+            // Clean up all existing scene root objects (except the Camera) to guarantee no duplicate Canvases or paths
+            var rootObjs = EditorSceneManager.GetActiveScene().GetRootGameObjects();
+            foreach (var root in rootObjs)
             {
-                GameObject existing = GameObject.Find(objName);
-                if (existing != null) Object.DestroyImmediate(existing);
+                if (root.GetComponent<Camera>() != null) continue;
+                Object.DestroyImmediate(root);
             }
 
             // Clear or repurpose camera
