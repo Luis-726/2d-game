@@ -6,7 +6,7 @@ namespace TowerDefense.Towers
 {
     /// <summary>
     /// Coordinates tower purchasing, placement preview, grid/spot validation, and placement cancellation.
-    /// Implements design document mitigation allowing optional restriction of placements to between waves.
+    /// Strictly blocks placing towers directly on the enemy lane/path or overlapping existing towers.
     /// </summary>
     public class TowerPlacementManager : MonoBehaviour
     {
@@ -16,7 +16,13 @@ namespace TowerDefense.Towers
         [Tooltip("If true, towers can only be placed during PreWave phase to avoid accidental clicks during combat.")]
         [SerializeField] private bool restrictPlacementToPreWave = false;
 
-        [Tooltip("Layer mask for forbidden placement areas (such as the enemy path or obstacles).")]
+        [Tooltip("Distance from the center of the lane where placing towers is prohibited.")]
+        [SerializeField] private float laneProhibitionRadius = 0.95f;
+
+        [Tooltip("Minimum distance between placed towers to prevent overlapping.")]
+        [SerializeField] private float minimumTowerSpacing = 0.9f;
+
+        [Tooltip("Optional layer mask for forbidden placement areas (such as obstacles).")]
         [SerializeField] private LayerMask blockedLayerMask;
 
         [Header("Preview Visuals")]
@@ -118,21 +124,42 @@ namespace TowerDefense.Towers
 
         private bool CanPlaceAt(Vector3 position)
         {
-            // Cannot place if pointer is hovering over UI elements
+            // 1. Cannot place if pointer is hovering over UI elements
             if (InputHelper.IsPointerOverUI())
             {
                 return false;
             }
 
-            // Verify coins
-            if (GameManager.Instance != null && GameManager.Instance.CurrentCoins < selectedTowerPrefab.BuildCost)
+            // 2. Verify coins
+            if (selectedTowerPrefab == null || (GameManager.Instance != null && GameManager.Instance.CurrentCoins < selectedTowerPrefab.BuildCost))
             {
                 return false;
             }
 
-            // Check if blocked by path, other towers, or obstacles
-            Collider2D overlap = Physics2D.OverlapCircle(position, 0.45f, blockedLayerMask);
-            return overlap == null;
+            // 3. Prohibit placing directly on the enemy lane/path
+            WaypointPath path = WaypointPath.Instance ?? Object.FindFirstObjectByType<WaypointPath>();
+            if (path != null && path.IsPositionOnPath(position, laneProhibitionRadius))
+            {
+                return false;
+            }
+
+            // 4. Prohibit placing on top of existing towers
+            foreach (Tower placedTower in Tower.PlacedTowers)
+            {
+                if (placedTower != null && Vector2.Distance(position, placedTower.transform.position) < minimumTowerSpacing)
+                {
+                    return false;
+                }
+            }
+
+            // 5. Optional check if blocked by custom obstacles in layer mask
+            if (blockedLayerMask.value != 0)
+            {
+                Collider2D overlap = Physics2D.OverlapCircle(position, 0.45f, blockedLayerMask);
+                if (overlap != null) return false;
+            }
+
+            return true;
         }
 
         private void TryPlaceTower()

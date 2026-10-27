@@ -5,12 +5,13 @@ Course Project Implementation Notes
 
 Original Design Summary:
 - Top-down 2D Tower Defense inspired by Bloons TD.
-- Mouse-driven: Left click to manually damage enemies (1+ dmg), left click to place towers / interact with UI, right click to cancel tower selection.
+- Mouse-driven: Left click to manually damage enemies (1+ dmg), left click to place towers / interact with UI, right click to cancel tower choice.
 - 3 Towers: Archer (single-target, medium range), Warrior (omnidirectional, close range), Mage (area-of-effect splash).
 - 3 Enemies: Skeleton (fast, low HP), Zombie (medium speed, medium HP), Orc (slow, high HP).
 - Mechanics: Enemies walk along a path of waypoints; player clicks to damage enemies (with click rate limit / cooldown to prevent auto-clicker exploits); towers target enemies (configurable targeting e.g. First / Strongest); 25 base health, 0 initial coins (relying on manual clicking first wave).
 - Waves loop / advance, win / game over screens with restart.
 
 Changes / Clarifications from One-Pager:
-- Initial project template: Created using Unity 6 Universal 2D (URP) for optimized 2D sprite rendering, orthographic projection, and 2D particle/light effects.
-- (Further changes will be documented here as development progresses).
+1. Universal 2D (URP): Project initialized with Unity 6 Universal 2D for pixel-perfect orthographic rendering and 2D sprite shaders.
+2. Lane Placement Protection: Implemented continuous polyline lane distance validation (`WaypointPath.IsPositionOnPath`). The placement preview indicator turns RED when hovered over the enemy walking lane or within close proximity of other towers, strictly preventing towers from blocking or stacking onto the road. Towers can only be placed on open terrain (preview turns GREEN).
+3. Hybrid Input Handling: Created an `InputHelper` utility supporting both Unity's New Input System and legacy input polling to ensure smooth, cross-device mouse interaction without runtime exceptions.

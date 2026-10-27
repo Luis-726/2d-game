@@ -11,6 +11,8 @@ namespace TowerDefense.Towers
     /// </summary>
     public class Tower : MonoBehaviour
     {
+        public static readonly List<Tower> PlacedTowers = new List<Tower>();
+
         [Header("Identity & Cost")]
         [SerializeField] private TowerType towerType = TowerType.Archer;
         [SerializeField] private string towerName = "Archer Tower";
@@ -42,6 +44,16 @@ namespace TowerDefense.Towers
         public int BuildCost => buildCost;
         public float Range => range;
         public TargetPriority Priority => priority;
+
+        private void OnEnable()
+        {
+            PlacedTowers.Add(this);
+        }
+
+        private void OnDisable()
+        {
+            PlacedTowers.Remove(this);
+        }
 
         private void Start()
         {
