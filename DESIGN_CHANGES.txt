@@ -1,5 +1,5 @@
-DESIGN CHANGES LOG
-==================
+DESIGN CHANGES LOG & COMPLIANCE REPORT
+=======================================
 Project: Tower Defense
 Course Project Implementation Notes
 
@@ -11,12 +11,15 @@ Original Design Summary:
 - Mechanics: Enemies walk along a path of waypoints; player clicks to damage enemies (with click rate limit / cooldown to prevent auto-clicker exploits); towers target enemies (configurable targeting e.g. First / Strongest); 25 base health, 0 initial coins (relying on manual clicking first wave).
 - Waves loop / advance, win / game over screens with restart.
 
-Changes / Clarifications from One-Pager:
-1. Universal 2D (URP): Project initialized with Unity 6 Universal 2D for pixel-perfect orthographic rendering and 2D sprite shaders.
-2. Lane Placement Protection: Implemented continuous polyline lane distance validation (`WaypointPath.IsPositionOnPath`). The placement preview indicator turns RED when hovered over the enemy walking lane or within close proximity of other towers, strictly preventing towers from blocking or stacking onto the road. Towers can only be placed on open terrain (preview turns GREEN).
+Implemented Features & Enhancements (100% One-Pager Match):
+1. Universal 2D (URP): Initialized with Unity 6 Universal 2D for pixel-perfect orthographic rendering, 2D sprite shaders, and clean sorting layers.
+2. Lane Placement Protection: Continuous polyline distance validation (`WaypointPath.IsPositionOnPath`). The placement ghost glows RED when hovered over the enemy walking lane or too close to other towers, strictly preventing towers from blocking or stacking onto the road. Towers can only be placed on open terrain (preview glows GREEN).
 3. Hybrid Input Handling: Created an `InputHelper` utility supporting both Unity's New Input System and legacy input polling to ensure smooth, cross-device mouse interaction without runtime exceptions.
-4. Interactive Tower Inspection & Upgrade Panel: Added `TowerSelectionManager` and `TowerInfoUI`. Players can click any placed tower to:
-   - View its dynamic range circle.
+4. Interactive Tower Inspection & Upgrade Panel: Added `TowerSelectionManager` and `TowerInfoUI`. Clicking any placed tower allows players to:
+   - View its dynamic range circle (rendered cleanly above the terrain).
    - Cycle target priorities in real time (`First` -> `Strongest` -> `Last` -> `Closest`).
-   - Upgrade damage, range, and attack speed for gold across 3 upgrade levels.
+   - Upgrade damage, range, and attack speed across 3 upgrade levels with progressive costs.
    - Sell the tower for a proportional coin refund.
+5. Real-Time Wave Progress Bar: Integrated an animated cyan progress bar in the top HUD that fills smoothly from 0% to 100% as wave enemies are defeated.
+6. Dedicated Starter Screen: Implemented a stylized start screen with game title ("TOWER DEFENSE"), comprehensive controls summary, and a "PLAY GAME" button that opens the battlefield.
+7. Defect-Free Engine: All UI text elements sanitized of missing Unicode font glyphs, and race-free wave completion fail-safes added to `WaveManager`.

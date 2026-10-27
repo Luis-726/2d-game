@@ -515,10 +515,27 @@ namespace TowerDefense.Editor
             SetPrivateField(uiMgr, "warriorButton", warriorBtn);
             SetPrivateField(uiMgr, "mageButton", mageBtn);
 
-            // Controls Hint Box
-            GameObject hintBox = CreateUIPanel(canvasObj.transform, "ControlsHint", new Vector2(0.5f, 0.82f), new Vector2(0.5f, 0.82f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(700, 90), new Color(0.05f, 0.05f, 0.08f, 0.88f));
-            CreateUIText(hintBox.transform, "HintLabel", "Left Click enemies to attack! | Click Tower to place | Right Click cancels\nDefeat enemies to earn coins for towers!", 22, new Vector2(0.5f, 0.5f), new Vector2(680, 80), Vector2.zero, TextAlignmentOptions.Center);
-            SetPrivateField(uiMgr, "startControlsHintPanel", hintBox);
+            // Starter Screen (Per One-Pager: "1. Starter Screen: title, controls hint")
+            GameObject startScreen = CreateUIPanel(canvasObj.transform, "StarterScreen", new Vector2(0, 0), new Vector2(1, 1), new Vector2(0.5f, 0.5f), Vector2.zero, Vector2.zero, new Color(0.06f, 0.08f, 0.12f, 0.94f));
+
+            TextMeshProUGUI titleText = CreateUIText(startScreen.transform, "MainTitle", "TOWER DEFENSE", 56, new Vector2(0.5f, 0.78f), new Vector2(700, 70), Vector2.zero, TextAlignmentOptions.Center);
+            titleText.color = new Color(1f, 0.85f, 0.25f);
+
+            CreateUIText(startScreen.transform, "SubTitle", "Defend your base against the incoming undead hordes!", 24, new Vector2(0.5f, 0.69f), new Vector2(700, 40), Vector2.zero, TextAlignmentOptions.Center);
+
+            // Instructions Box
+            GameObject instBox = CreateUIPanel(startScreen.transform, "InstructionsBox", new Vector2(0.5f, 0.46f), new Vector2(0.5f, 0.46f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(700, 210), new Color(0.12f, 0.14f, 0.2f, 0.9f));
+            string rules = "- Left Click (Manual Attack): Click enemies to deal direct damage!\n" +
+                           "- Left Click (Towers): Buy towers from bottom tray and place on grass.\n" +
+                           "- Right Click / Esc: Cancel current tower selection.\n" +
+                           "- Inspect & Upgrade: Click any placed tower to view range, upgrade, or sell.\n" +
+                           "- Strategy: You start with 0 coins! Click enemies early to fund your towers.";
+            CreateUIText(instBox.transform, "RulesText", rules, 20, new Vector2(0.5f, 0.5f), new Vector2(660, 190), Vector2.zero, TextAlignmentOptions.Left);
+
+            Button startBtn = CreateUIButton(startScreen.transform, "StartGameBtn", "PLAY GAME", new Vector2(0.5f, 0.20f), new Vector2(260, 65), new Color(0.2f, 0.75f, 0.35f));
+
+            SetPrivateField(uiMgr, "starterScreenPanel", startScreen);
+            SetPrivateField(uiMgr, "startGameButton", startBtn);
 
             // Tower Info Panel (Inspector on right side)
             GameObject infoPanel = CreateUIPanel(canvasObj.transform, "TowerInfoPanel", new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(-20, 0), new Vector2(340, 260), new Color(0.12f, 0.12f, 0.18f, 0.95f));

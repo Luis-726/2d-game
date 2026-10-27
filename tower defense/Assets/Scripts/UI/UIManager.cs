@@ -8,7 +8,7 @@ namespace TowerDefense.UI
 {
     /// <summary>
     /// Manages the heads-up display (HUD), tower selection tray, wave buttons, and game state panels.
-    /// Includes real-time Wave Progress Bar visualization.
+    /// Includes Starter Title Screen, real-time Wave Progress Bar, and Game Over / Victory flows.
     /// </summary>
     public class UIManager : MonoBehaviour
     {
@@ -33,7 +33,8 @@ namespace TowerDefense.UI
         [SerializeField] private Tower magePrefab;
 
         [Header("State Panels")]
-        [SerializeField] private GameObject startControlsHintPanel;
+        [SerializeField] private GameObject starterScreenPanel;
+        [SerializeField] private Button startGameButton;
         [SerializeField] private GameObject gameOverPanel;
         [SerializeField] private GameObject victoryPanel;
         [SerializeField] private Button restartButtonGameOver;
@@ -71,7 +72,7 @@ namespace TowerDefense.UI
 
             if (gameOverPanel != null) gameOverPanel.SetActive(false);
             if (victoryPanel != null) victoryPanel.SetActive(false);
-            if (startControlsHintPanel != null) startControlsHintPanel.SetActive(true);
+            if (starterScreenPanel != null) starterScreenPanel.SetActive(true);
         }
 
         private void OnDestroy()
@@ -92,11 +93,19 @@ namespace TowerDefense.UI
 
         private void BindButtonEvents()
         {
+            if (startGameButton != null)
+            {
+                startGameButton.onClick.AddListener(() =>
+                {
+                    if (starterScreenPanel != null) starterScreenPanel.SetActive(false);
+                });
+            }
+
             if (nextWaveButton != null)
             {
                 nextWaveButton.onClick.AddListener(() =>
                 {
-                    if (startControlsHintPanel != null) startControlsHintPanel.SetActive(false);
+                    if (starterScreenPanel != null) starterScreenPanel.SetActive(false);
                     WaveManager.Instance?.StartNextWave();
                 });
             }
