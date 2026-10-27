@@ -26,6 +26,7 @@ namespace TowerDefense.Core
     /// <summary>
     /// Controls wave progression, spawning enemies along the WaypointPath,
     /// tracking active wave enemies, and triggering wave completion / victory.
+    /// Includes fail-safe resolution to prevent wave freeze when fast kills occur.
     /// </summary>
     public class WaveManager : MonoBehaviour
     {
@@ -41,13 +42,14 @@ namespace TowerDefense.Core
         [SerializeField] private int currentWaveIndex = 0;
         private int enemiesRemainingInWave = 0;
         private bool isSpawning = false;
+        private bool isWaveTransitioning = false;
 
         public event Action<int, int> OnWaveChanged; // (currentWave, totalWaves)
         public event Action<int> OnEnemiesRemainingChanged;
 
         public int CurrentWaveNumber => currentWaveIndex + 1;
         public int TotalWaves => waves.Count;
-        public bool IsWaveActive => isSpawning || enemiesRemainingInWave > 0;
+        public bool IsWaveActive => isSpawning || enemiesRemainingInWave > 0 || (Enemy.ActiveEnemies != null && Enemy.ActiveEnemies.Count > 0);
 
         private void Awake()
         {
@@ -64,14 +66,27 @@ namespace TowerDefense.Core
             OnWaveChanged?.Invoke(currentWaveIndex + 1, waves.Count);
         }
 
+        private void Update()
+        {
+            // Fail-safe check: If wave is active, spawning is complete, and no enemies remain on field, complete wave.
+            if (GameManager.Instance != null && GameManager.Instance.CurrentState == GameState.WaveInProgress)
+            {
+                if (!isSpawning && !isWaveTransitioning && Enemy.ActiveEnemies.Count == 0 && enemiesRemainingInWave <= 0)
+                {
+                    OnWaveCompleted();
+                }
+            }
+        }
+
         /// <summary>
         /// Starts the next wave if currently in PreWave state.
         /// </summary>
         public void StartNextWave()
         {
-            if (IsWaveActive) return;
+            if (IsWaveActive || isWaveTransitioning) return;
             if (currentWaveIndex >= waves.Count) return;
 
+            isWaveTransitioning = false;
             GameManager.Instance?.SetState(GameState.WaveInProgress);
             StartCoroutine(SpawnWaveRoutine(waves[currentWaveIndex]));
         }
@@ -90,26 +105,42 @@ namespace TowerDefense.Core
 
             foreach (var group in wave.spawnGroups)
             {
-                yield return new WaitForSeconds(group.delayBeforeGroup);
+                if (group.delayBeforeGroup > 0f)
+                {
+                    yield return new WaitForSeconds(group.delayBeforeGroup);
+                }
 
                 for (int i = 0; i < group.count; i++)
                 {
                     if (GameManager.Instance != null && GameManager.Instance.CurrentState == GameState.GameOver)
                     {
+                        isSpawning = false;
                         yield break;
                     }
 
                     SpawnEnemy(group.enemyPrefab);
-                    yield return new WaitForSeconds(group.spawnInterval);
+
+                    if (i < group.count - 1 && group.spawnInterval > 0f)
+                    {
+                        yield return new WaitForSeconds(group.spawnInterval);
+                    }
                 }
             }
 
             isSpawning = false;
+
+            // If all enemies were already defeated while the spawning coroutine was waiting, transition now
+            CheckWaveCompletion();
         }
 
         private void SpawnEnemy(Enemy prefab)
         {
-            if (prefab == null || assignedPath == null) return;
+            if (prefab == null || assignedPath == null)
+            {
+                // Decrement to avoid stalling if a prefab slot was empty
+                enemiesRemainingInWave--;
+                return;
+            }
 
             Vector3 spawnPos = assignedPath.GetWaypointPosition(0);
             Enemy enemy = Instantiate(prefab, spawnPos, Quaternion.identity);
@@ -124,8 +155,14 @@ namespace TowerDefense.Core
         {
             enemiesRemainingInWave--;
             OnEnemiesRemainingChanged?.Invoke(Mathf.Max(0, enemiesRemainingInWave));
+            CheckWaveCompletion();
+        }
 
-            if (!isSpawning && enemiesRemainingInWave <= 0)
+        private void CheckWaveCompletion()
+        {
+            if (isWaveTransitioning) return;
+
+            if (!isSpawning && (enemiesRemainingInWave <= 0 || Enemy.ActiveEnemies.Count == 0))
             {
                 OnWaveCompleted();
             }
@@ -133,6 +170,11 @@ namespace TowerDefense.Core
 
         private void OnWaveCompleted()
         {
+            if (isWaveTransitioning) return;
+            isWaveTransitioning = true;
+            isSpawning = false;
+            enemiesRemainingInWave = 0;
+
             currentWaveIndex++;
 
             if (currentWaveIndex >= waves.Count)
@@ -146,6 +188,7 @@ namespace TowerDefense.Core
                 // Return to preparation phase for next wave
                 GameManager.Instance?.SetState(GameState.PreWave);
                 OnWaveChanged?.Invoke(currentWaveIndex + 1, waves.Count);
+                isWaveTransitioning = false;
             }
         }
     }

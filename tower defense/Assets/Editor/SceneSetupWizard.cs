@@ -460,10 +460,10 @@ namespace TowerDefense.Editor
             // Top Bar
             GameObject topBar = CreateUIPanel(canvasObj.transform, "TopBar", new Vector2(0, 1), new Vector2(1, 1), new Vector2(0.5f, 1), new Vector2(0, 0), new Vector2(0, 90), new Color(0.1f, 0.1f, 0.15f, 0.9f));
 
-            TextMeshProUGUI livesText = CreateUIText(topBar.transform, "LivesText", "❤️ Lives: 25", 28, new Vector2(0, 0.5f), new Vector2(250, 60), new Vector2(180, 0), TextAlignmentOptions.Left);
-            TextMeshProUGUI coinsText = CreateUIText(topBar.transform, "CoinsText", "🪙 Coins: 0", 28, new Vector2(0.35f, 0.5f), new Vector2(250, 60), Vector2.zero, TextAlignmentOptions.Left);
+            TextMeshProUGUI livesText = CreateUIText(topBar.transform, "LivesText", "Lives: 25", 28, new Vector2(0, 0.5f), new Vector2(250, 60), new Vector2(180, 0), TextAlignmentOptions.Left);
+            TextMeshProUGUI coinsText = CreateUIText(topBar.transform, "CoinsText", "Coins: 0", 28, new Vector2(0.35f, 0.5f), new Vector2(250, 60), Vector2.zero, TextAlignmentOptions.Left);
             TextMeshProUGUI waveText = CreateUIText(topBar.transform, "WaveText", "Wave: 1 / 5", 28, new Vector2(0.65f, 0.5f), new Vector2(250, 60), Vector2.zero, TextAlignmentOptions.Left);
-            Button nextWaveBtn = CreateUIButton(topBar.transform, "NextWaveButton", "Start Wave ⚔️", new Vector2(0.9f, 0.5f), new Vector2(200, 50), new Color(0.85f, 0.5f, 0.15f));
+            Button nextWaveBtn = CreateUIButton(topBar.transform, "NextWaveButton", "Start Wave", new Vector2(0.9f, 0.5f), new Vector2(200, 50), new Color(0.85f, 0.5f, 0.15f));
 
             SetPrivateField(uiMgr, "livesText", livesText);
             SetPrivateField(uiMgr, "coinsText", coinsText);
@@ -483,14 +483,14 @@ namespace TowerDefense.Editor
 
             // Controls Hint Box
             GameObject hintBox = CreateUIPanel(canvasObj.transform, "ControlsHint", new Vector2(0.5f, 0.82f), new Vector2(0.5f, 0.82f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(700, 90), new Color(0.05f, 0.05f, 0.08f, 0.88f));
-            CreateUIText(hintBox.transform, "HintLabel", "Left Click enemies to attack! • Click Tower to place • Right Click cancels\nDefeat enemies to earn coins for towers!", 22, new Vector2(0.5f, 0.5f), new Vector2(680, 80), Vector2.zero, TextAlignmentOptions.Center);
+            CreateUIText(hintBox.transform, "HintLabel", "Left Click enemies to attack! | Click Tower to place | Right Click cancels\nDefeat enemies to earn coins for towers!", 22, new Vector2(0.5f, 0.5f), new Vector2(680, 80), Vector2.zero, TextAlignmentOptions.Center);
             SetPrivateField(uiMgr, "startControlsHintPanel", hintBox);
 
             // Game Over Modal
             GameObject goPanel = CreateUIPanel(canvasObj.transform, "GameOverPanel", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(500, 320), new Color(0.2f, 0.05f, 0.05f, 0.96f));
             CreateUIText(goPanel.transform, "Title", "GAME OVER", 48, new Vector2(0.5f, 0.72f), new Vector2(400, 70), Vector2.zero, TextAlignmentOptions.Center);
             CreateUIText(goPanel.transform, "Desc", "Enemies breached your base defenses!", 24, new Vector2(0.5f, 0.48f), new Vector2(400, 50), Vector2.zero, TextAlignmentOptions.Center);
-            Button goRestart = CreateUIButton(goPanel.transform, "RestartBtn", "Try Again 🔄", new Vector2(0.5f, 0.22f), new Vector2(240, 60), new Color(0.85f, 0.25f, 0.25f));
+            Button goRestart = CreateUIButton(goPanel.transform, "RestartBtn", "Try Again", new Vector2(0.5f, 0.22f), new Vector2(240, 60), new Color(0.85f, 0.25f, 0.25f));
             goPanel.SetActive(false);
             SetPrivateField(uiMgr, "gameOverPanel", goPanel);
             SetPrivateField(uiMgr, "restartButtonGameOver", goRestart);
@@ -499,7 +499,7 @@ namespace TowerDefense.Editor
             GameObject vicPanel = CreateUIPanel(canvasObj.transform, "VictoryPanel", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(500, 320), new Color(0.08f, 0.2f, 0.1f, 0.96f));
             CreateUIText(vicPanel.transform, "Title", "VICTORY!", 48, new Vector2(0.5f, 0.72f), new Vector2(400, 70), Vector2.zero, TextAlignmentOptions.Center);
             CreateUIText(vicPanel.transform, "Desc", "You defended the base against all waves!", 24, new Vector2(0.5f, 0.48f), new Vector2(400, 50), Vector2.zero, TextAlignmentOptions.Center);
-            Button vicRestart = CreateUIButton(vicPanel.transform, "PlayAgainBtn", "Play Again 🏆", new Vector2(0.5f, 0.22f), new Vector2(240, 60), new Color(0.25f, 0.75f, 0.35f));
+            Button vicRestart = CreateUIButton(vicPanel.transform, "PlayAgainBtn", "Play Again", new Vector2(0.5f, 0.22f), new Vector2(240, 60), new Color(0.25f, 0.75f, 0.35f));
             vicPanel.SetActive(false);
             SetPrivateField(uiMgr, "victoryPanel", vicPanel);
             SetPrivateField(uiMgr, "restartButtonVictory", vicRestart);
