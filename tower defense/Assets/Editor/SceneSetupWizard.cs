@@ -485,10 +485,16 @@ namespace TowerDefense.Editor
             GameObject barBg = CreateUIPanel(topBar.transform, "WaveProgressBar", new Vector2(0.70f, 0.5f), new Vector2(0.70f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(240, 22), new Color(0.08f, 0.08f, 0.12f, 1f));
             GameObject barFill = CreateUIPanel(barBg.transform, "Fill", new Vector2(0, 0), new Vector2(1, 1), new Vector2(0, 0.5f), Vector2.zero, Vector2.zero, new Color(0.2f, 0.75f, 0.95f, 1f));
             Image fillImg = barFill.GetComponent<Image>();
+            fillImg.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Sprites/HealthBarFill.png");
             fillImg.type = Image.Type.Filled;
             fillImg.fillMethod = Image.FillMethod.Horizontal;
             fillImg.fillOrigin = 0;
             fillImg.fillAmount = 0f;
+            RectTransform fillRt = barFill.GetComponent<RectTransform>();
+            fillRt.anchorMin = new Vector2(0f, 0f);
+            fillRt.anchorMax = new Vector2(0f, 1f);
+            fillRt.offsetMin = Vector2.zero;
+            fillRt.offsetMax = Vector2.zero;
 
             Button nextWaveBtn = CreateUIButton(topBar.transform, "NextWaveButton", "Start Wave", new Vector2(0.91f, 0.5f), new Vector2(180, 50), new Color(0.85f, 0.5f, 0.15f));
 

@@ -179,6 +179,16 @@ namespace TowerDefense.UI
             if (waveProgressBarFill != null)
             {
                 waveProgressBarFill.fillAmount = progress;
+
+                // Adjust anchorMax directly so progress scales accurately with or without a sprite
+                RectTransform rt = waveProgressBarFill.rectTransform;
+                if (rt != null)
+                {
+                    rt.anchorMin = new Vector2(0f, 0f);
+                    rt.anchorMax = new Vector2(Mathf.Clamp01(progress), 1f);
+                    rt.offsetMin = Vector2.zero;
+                    rt.offsetMax = Vector2.zero;
+                }
             }
         }
 
