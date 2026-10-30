@@ -1,0 +1,1 @@
+my original idea for the 2d game is a tower defense game where the user can click on the enemy to deal some damage. I was able to set up my game with the help of ai in terms of the code. with it, I was able to create a game I thought would be fun. I pretty much followed my one pager for what I wanted to have. 
