@@ -23,10 +23,10 @@ namespace TowerDefense.Core
         public List<EnemySpawnGroup> spawnGroups = new List<EnemySpawnGroup>();
     }
 
-    /// <summary>
+    
     /// Controls wave progression, spawning enemies along the WaypointPath,
     /// tracking active wave enemies, and broadcasting progress for the wave progress bar.
-    /// </summary>
+    
     public class WaveManager : MonoBehaviour
     {
         public static WaveManager Instance { get; private set; }
@@ -80,9 +80,9 @@ namespace TowerDefense.Core
             }
         }
 
-        /// <summary>
+        
         /// Starts the next wave if currently in PreWave state.
-        /// </summary>
+        
         public void StartNextWave()
         {
             if (IsWaveActive || isWaveTransitioning) return;
@@ -209,9 +209,9 @@ namespace TowerDefense.Core
         }
     }
 
-    /// <summary>
+    
     /// Helper component to notify WaveManager when an enemy is destroyed.
-    /// </summary>
+    
     internal class EnemyWatcher : MonoBehaviour
     {
         public event Action OnDestroyed;

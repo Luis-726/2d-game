@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace TowerDefense.Audio
 {
-    /// <summary>
-    /// Central audio controller handling all sound effects.
+    
+    /// controls audio here
     /// Supports assigned audio clips with procedural fallback synthesis so the game
     /// produces audio cues even before external asset files are linked.
     /// Strictly excludes looping background music per rubric instructions.
-    /// </summary>
+    
     public class AudioManager : MonoBehaviour
     {
         public static AudioManager Instance { get; private set; }
@@ -125,16 +125,16 @@ namespace TowerDefense.Audio
             {
                 // Procedural audio generation fallback
                 AudioClip synthClip = CreateProceduralTone(frequency, duration);
-                if (synthClip != null)
+                if (synthClip != null) 
                 {
                     sfxSource.PlayOneShot(synthClip);
                 }
             }
         }
 
-        /// <summary>
+        
         /// Generates a simple tone on the fly if an external audio file has not yet been assigned.
-        /// </summary>
+        
         private AudioClip CreateProceduralTone(float frequency, float duration)
         {
             int sampleRate = 44100;

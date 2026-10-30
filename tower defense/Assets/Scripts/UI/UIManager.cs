@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 namespace TowerDefense.UI
 {
-    /// <summary>
+    
     /// Manages the heads-up display (HUD), tower selection tray, wave buttons, and game state panels.
     /// Includes Starter Title Screen, real-time Wave Progress Bar, and Game Over / Victory flows.
-    /// </summary>
+    
     public class UIManager : MonoBehaviour
     {
         public static UIManager Instance { get; private set; }

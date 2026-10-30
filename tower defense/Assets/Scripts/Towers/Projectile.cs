@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace TowerDefense.Towers
 {
-    /// <summary>
+    
     /// Represents projectiles fired by ranged towers (e.g. Arrows for Archers, Fireballs for Mages).
     /// Supports direct single-target impact or explosive area-of-effect (AoE) splash damage.
-    /// </summary>
+    
     public class Projectile : MonoBehaviour
     {
         [Header("Flight Characteristics")]

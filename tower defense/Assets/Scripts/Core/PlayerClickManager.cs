@@ -5,36 +5,37 @@ using UnityEngine;
 
 namespace TowerDefense.Core
 {
-    /// <summary>
-    /// Handles manual player click-damage interaction on enemies.
-    /// Includes click-rate throttling to prevent auto-clicker exploits (as outlined in design doc),
-    /// and ensures clicks do not penetrate UI elements or interfere with tower placement.
-    /// </summary>
+    
+    /// keepes track of player's click damage
+    /// prevent auto clickers
+    /// prevents mouse from clicking outside of the UI
+    
     public class PlayerClickManager : MonoBehaviour
     {
         [Header("Click Combat Settings")]
         [Tooltip("Damage dealt per manual click.")]
-        [SerializeField] private int clickDamage = 1;
+        [SerializeField] private int clickDamage = 1; // mouse click damage
 
         [Tooltip("Minimum time (in seconds) between allowed manual clicks to prevent auto-clicker abuse.")]
-        [SerializeField] private float clickCooldown = 0.15f;
+        [SerializeField] private float clickCooldown = 0.15f; // sets timer for clicks
 
         [Header("Layer Masks")]
         [Tooltip("Layer assigned to enemies.")]
-        [SerializeField] private LayerMask enemyLayerMask;
+        [SerializeField] private LayerMask enemyLayerMask; // gives enemies a tag so the towers knows if its an enemy or not
 
         [Header("Visual Feedback")]
-        [Tooltip("Prefab spawned at click location (hit marker / spark).")]
+        [Tooltip("Prefab spawned at click location (hit marker / spark).")] // creates a little hit marker for when the player clicks on an enemy
         [SerializeField] private GameObject clickHitMarkerPrefab;
-
+        // helps the scene to go faster
         private Camera mainCamera;
+        // checks for timing
         private float lastClickTime = -1f;
-
+        // caches camera
         private void Awake()
         {
             mainCamera = Camera.main;
         }
-
+        // checks if placing a tower or not
         private void Update()
         {
             // Do not process manual attack clicks if placing a tower
@@ -48,7 +49,7 @@ namespace TowerDefense.Core
                 TryClickAttack();
             }
         }
-
+        // stops it from causing hit markers on UI
         private void TryClickAttack()
         {
             // Ignore click if clicking over UI (e.g. Tower tray buttons, Pause, etc.)
@@ -73,7 +74,7 @@ namespace TowerDefense.Core
             Vector2 mousePos2D = new Vector2(worldPos.x, worldPos.y);
 
             // Raycast or overlap point for 2D colliders
-            Collider2D hitCollider = Physics2D.OverlapPoint(mousePos2D, enemyLayerMask);
+            Collider2D hitCollider = Physics2D.OverlapPoint(mousePos2D, enemyLayerMask); //checks for colliding projectiles
 
             // If no specific layer mask was hit or mask was set to default, check any collider for Enemy component
             if (hitCollider == null)
@@ -94,7 +95,7 @@ namespace TowerDefense.Core
                 }
             }
         }
-
+        // removes hit marker after a certain amount of time
         private void SpawnHitMarker(Vector2 position)
         {
             if (clickHitMarkerPrefab != null)

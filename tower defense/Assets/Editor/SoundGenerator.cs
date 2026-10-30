@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace TowerDefense.Editor
 {
-    /// <summary>
+    
     /// Generates 16-bit 44.1kHz PCM .wav sound effect assets for the game.
     /// Meets the rubric requirement: "Sound: 15%... key part of your game... no background music unless tuned...".
-    /// </summary>
+    
     public static class SoundGenerator
     {
         private const int SampleRate = 44100;

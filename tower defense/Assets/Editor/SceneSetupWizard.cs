@@ -15,10 +15,10 @@ using UnityEngine.UI;
 
 namespace TowerDefense.Editor
 {
-    /// <summary>
+    
     /// Automated setup wizard that constructs the complete game scene, generates prefabs,
     /// links all audio and visual assets, and sets up UI according to the design document.
-    /// </summary>
+    
     public static class SceneSetupWizard
     {
         [MenuItem("Tools/Tower Defense/Build & Setup Entire Game Scene")]

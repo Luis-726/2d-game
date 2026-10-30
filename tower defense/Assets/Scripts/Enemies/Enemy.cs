@@ -7,10 +7,10 @@ using UnityEngine;
 
 namespace TowerDefense.Enemies
 {
-    /// <summary>
+    
     /// Base class for all enemies walking the path.
     /// Handles waypoint movement, health, manual click damage reception, and death rewards.
-    /// </summary>
+    
     [RequireComponent(typeof(Collider2D))]
     public class Enemy : MonoBehaviour
     {
@@ -69,9 +69,9 @@ namespace TowerDefense.Enemies
             ActiveEnemies.Remove(this);
         }
 
-        /// <summary>
+        
         /// Initializes the enemy's path and starting waypoint.
-        /// </summary>
+        
         public void Initialize(WaypointPath assignedPath)
         {
             path = assignedPath;
@@ -129,9 +129,9 @@ namespace TowerDefense.Enemies
             }
         }
 
-        /// <summary>
+        
         /// Inflicts damage on the enemy. Can be called by towers or player manual clicks.
-        /// </summary>
+        
         public void TakeDamage(int damage, bool isPlayerClick = false)
         {
             if (isDead) return;

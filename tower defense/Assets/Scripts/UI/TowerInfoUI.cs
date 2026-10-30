@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 namespace TowerDefense.UI
 {
-    /// <summary>
+    
     /// Displays detailed stats for the actively selected tower.
     /// Provides interactive buttons to upgrade tower stats, change targeting priority, and sell the tower.
     /// Includes self-construction fallback if the panel was not pre-baked in the scene.
-    /// </summary>
+    
     public class TowerInfoUI : MonoBehaviour
     {
         public static TowerInfoUI Instance { get; private set; }

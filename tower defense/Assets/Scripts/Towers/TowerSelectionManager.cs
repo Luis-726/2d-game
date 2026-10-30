@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace TowerDefense.Towers
 {
-    /// <summary>
+    
     /// Coordinates clicking on placed towers in the game world to inspect, upgrade, or re-target them.
     /// Handles range circle visualizer toggling and deselects upon right-click or clicking empty terrain.
     /// Self-instantiates if missing in the active scene.
-    /// </summary>
+    
     public class TowerSelectionManager : MonoBehaviour
     {
         private static TowerSelectionManager _instance;

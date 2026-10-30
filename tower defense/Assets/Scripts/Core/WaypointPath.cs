@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace TowerDefense.Core
 {
-    /// <summary>
+    
     /// Holds a sequenced list of waypoints that define an enemy's route through the map.
     /// Draws visual gizmos in the Scene view to facilitate level design.
     /// Also provides lane detection so towers cannot be built directly on the walking road.
-    /// </summary>
+    
     public class WaypointPath : MonoBehaviour
     {
         public static WaypointPath Instance { get; private set; }
@@ -46,9 +46,9 @@ namespace TowerDefense.Core
             }
         }
 
-        /// <summary>
+        
         /// Retrieves the world position of the waypoint at the given index.
-        /// </summary>
+        
         public Vector3 GetWaypointPosition(int index)
         {
             if (index < 0 || index >= waypoints.Count)
@@ -59,10 +59,10 @@ namespace TowerDefense.Core
             return waypoints[index].position;
         }
 
-        /// <summary>
+        
         /// Calculates remaining distance from a given waypoint index and current position to the final base waypoint.
         /// Useful for 'First' tower targeting.
-        /// </summary>
+        
         public float GetRemainingDistance(int currentWaypointIndex, Vector3 currentPosition)
         {
             if (waypoints.Count == 0 || currentWaypointIndex >= waypoints.Count) return 0f;
@@ -75,10 +75,10 @@ namespace TowerDefense.Core
             return distance;
         }
 
-        /// <summary>
+        
         /// Checks if a 2D world position lies directly inside the lane boundaries.
         /// Used to block placing towers on the enemy lane.
-        /// </summary>
+        
         public bool IsPositionOnPath(Vector2 position, float laneRadius = 0.85f)
         {
             if (waypoints == null || waypoints.Count < 2) return false;

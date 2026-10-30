@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace TowerDefense.UI
 {
-    /// <summary>
+    
     /// Displays a dynamic health bar above an enemy's head using a simple 2D sprite or transform scale.
-    /// </summary>
+    
     public class HealthBar2D : MonoBehaviour
     {
         [SerializeField] private Enemy enemy;

@@ -4,31 +4,28 @@ using UnityEngine.SceneManagement;
 
 namespace TowerDefense.Core
 {
-    /// <summary>
-    /// Represents the high-level states of the game.
-    /// </summary>
+    
+    /// tells player the level states of the game.
+    
     public enum GameState
     {
-        PreWave,        // Waiting for the player to start the wave / placing towers
-        WaveInProgress, // Enemies are actively spawning and moving
+        PreWave,        // Waits for the player to start the wave / placing towers
+        WaveInProgress, // Enemies are spawning and moving
         GameOver,       // Player lives reached 0
-        Victory         // All waves successfully cleared
+        Victory         // Beat all the waves
     }
 
-    /// <summary>
-    /// Central manager overseeing game state, player economy (coins), and base health.
-    /// Follows the Singleton pattern for accessible global event broadcasting.
-    /// </summary>
+    /// Keeps track of lives and money
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
 
         [Header("Starting Stats (Rubric & Design Specs)")]
-        [Tooltip("Starting player lives. Specified as 25 in design document.")]
+        [Tooltip("Starting player lives. Specified as 25 in design document.")] // tells player how many lives they have
         [SerializeField] private int startingLives = 25;
 
-        [Tooltip("Starting player coins. Specified as 0 in design document (players click enemies first).")]
-        [SerializeField] private int startingCoins = 100;
+        [Tooltip("Starting player coins. Specified as 0 in design document (players click enemies first).")] // tells player how to earn points
+        [SerializeField] private int startingCoins = 0;
 
         [Header("Runtime Stats")]
         [SerializeField] private int currentLives;
@@ -36,6 +33,7 @@ namespace TowerDefense.Core
         [SerializeField] private GameState currentState = GameState.PreWave;
 
         // Events for decoupled UI updates
+        // allows for ui to look neat
         public event Action<int> OnLivesChanged;
         public event Action<int> OnCoinsChanged;
         public event Action<GameState> OnGameStateChanged;
@@ -44,6 +42,7 @@ namespace TowerDefense.Core
         public int CurrentCoins => currentCoins;
         public GameState CurrentState => currentState;
 
+        // helps prevent multiple copies from exisiting in one place
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -57,6 +56,7 @@ namespace TowerDefense.Core
             currentCoins = startingCoins;
         }
 
+        // allows game to start
         private void Start()
         {
             SetState(GameState.PreWave);
@@ -64,9 +64,10 @@ namespace TowerDefense.Core
             OnCoinsChanged?.Invoke(currentCoins);
         }
 
-        /// <summary>
+        
         /// Updates the current game state and triggers state change listeners.
-        /// </summary>
+        /// keeps track whether the game is progressing or not
+        
         public void SetState(GameState newState)
         {
             if (currentState == newState) return;
@@ -81,9 +82,10 @@ namespace TowerDefense.Core
             }
         }
 
-        /// <summary>
+        
         /// Adds coins to the player's balance (e.g. from defeating enemies).
-        /// </summary>
+        /// 
+        
         public void AddCoins(int amount)
         {
             if (amount <= 0) return;
@@ -91,9 +93,10 @@ namespace TowerDefense.Core
             OnCoinsChanged?.Invoke(currentCoins);
         }
 
-        /// <summary>
+        
         /// Attempts to spend coins. Returns true if successful, false if insufficient funds.
-        /// </summary>
+        /// allows player to spend coin and if not enough funds then it wont allow the player to buy the tower
+        
         public bool TrySpendCoins(int amount)
         {
             if (amount < 0) return false;
@@ -106,9 +109,10 @@ namespace TowerDefense.Core
             return false;
         }
 
-        /// <summary>
+        
         /// Deducts lives when an enemy reaches the end of the path.
-        /// </summary>
+        /// lose health
+        
         public void DeductLives(int amount)
         {
             if (currentState == GameState.GameOver) return;
@@ -122,9 +126,10 @@ namespace TowerDefense.Core
             }
         }
 
-        /// <summary>
+        
         /// Restarts the active scene and restores time scale.
-        /// </summary>
+        /// lets user to restart when losing or beating the game
+        
         public void RestartGame()
         {
             Time.timeScale = 1f;

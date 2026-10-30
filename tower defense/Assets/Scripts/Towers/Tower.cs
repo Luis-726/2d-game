@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace TowerDefense.Towers
 {
-    /// <summary>
+    
     /// Base class representing all placeable defensive towers.
     /// Supports Archer (single-target ranged), Warrior (omnidirectional melee cleave), and Mage (AoE splash).
     /// Provides upgrade progression, targeting priority cycling, and refund selling.
-    /// </summary>
+    
     public class Tower : MonoBehaviour
     {
         public static readonly List<Tower> PlacedTowers = new List<Tower>();
@@ -106,9 +106,9 @@ namespace TowerDefense.Towers
             }
         }
 
-        /// <summary>
+        
         /// Warrior attacks all enemies within range simultaneously (omnidirectional cleave).
-        /// </summary>
+        
         private void TryWarriorCleave()
         {
             List<Enemy> inRangeEnemies = new List<Enemy>();
@@ -147,9 +147,9 @@ namespace TowerDefense.Towers
             }
         }
 
-        /// <summary>
+        
         /// Selects the best target according to the chosen TargetPriority.
-        /// </summary>
+        
         private void UpdateTarget()
         {
             Enemy bestEnemy = null;
@@ -228,9 +228,9 @@ namespace TowerDefense.Towers
             }
         }
 
-        /// <summary>
+        
         /// Upgrades this tower to the next level, boosting its stats and updating its range circle.
-        /// </summary>
+        
         public bool Upgrade()
         {
             if (!CanUpgrade) return false;
@@ -246,9 +246,9 @@ namespace TowerDefense.Towers
             return true;
         }
 
-        /// <summary>
+        
         /// Cycles through target priority modes (First -> Strongest -> Last -> Closest).
-        /// </summary>
+        
         public void CycleTargetPriority()
         {
             switch (priority)
@@ -269,9 +269,9 @@ namespace TowerDefense.Towers
             OnTowerUpdated?.Invoke();
         }
 
-        /// <summary>
+        
         /// Sells this tower, refunding part of its gold cost to the player.
-        /// </summary>
+        
         public void Sell()
         {
             Core.GameManager.Instance?.AddCoins(SellValue);

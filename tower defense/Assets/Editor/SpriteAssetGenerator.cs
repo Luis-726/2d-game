@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace TowerDefense.Editor
 {
-    /// <summary>
+    
     /// Generates stylized 2D pixel-art style sprites for all towers, enemies, projectiles, and tiles.
     /// Meets the rubric requirement: "Art: 15%... want to see some effort placed here...".
-    /// </summary>
+    
     public static class SpriteAssetGenerator
     {
         [MenuItem("Tools/Tower Defense/Generate All Sprites")]

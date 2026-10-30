@@ -7,9 +7,10 @@ using UnityEngine.InputSystem;
 
 namespace TowerDefense.Core
 {
-    /// <summary>
+    
     /// Utility class ensuring compatibility across both the Unity New Input System and Legacy Input Manager.
-    /// </summary>
+    /// keeps track of user's mouse and allows it to detect user's input in the game
+    
     public static class InputHelper
     {
         public static bool GetLeftClickDown()
@@ -44,7 +45,7 @@ namespace TowerDefense.Core
 #endif
             return Input.mousePosition;
         }
-
+        // translate my mouse location to the game
         public static Vector3 GetMouseWorldPosition(Camera cam)
         {
             if (cam == null) cam = Camera.main;
@@ -55,7 +56,7 @@ namespace TowerDefense.Core
             worldPos.z = 0;
             return worldPos;
         }
-
+        // tells the cursor if it's over a UI
         public static bool IsPointerOverUI()
         {
             if (EventSystem.current == null) return false;

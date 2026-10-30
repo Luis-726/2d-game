@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace TowerDefense.Towers
 {
-    /// <summary>
+    
     /// Coordinates tower purchasing, placement preview, grid/spot validation, and placement cancellation.
     /// Strictly blocks placing towers directly on the enemy lane/path or overlapping existing towers.
-    /// </summary>
+    
     public class TowerPlacementManager : MonoBehaviour
     {
         public static TowerPlacementManager Instance { get; private set; }
@@ -67,9 +67,9 @@ namespace TowerDefense.Towers
             }
         }
 
-        /// <summary>
+        
         /// Initiates placement mode with the selected tower prefab.
-        /// </summary>
+        
         public void SelectTowerToPlace(Tower towerPrefab)
         {
             if (towerPrefab == null) return;
@@ -184,9 +184,9 @@ namespace TowerDefense.Towers
             }
         }
 
-        /// <summary>
+        
         /// Cancels the active placement mode and cleans up preview visuals.
-        /// </summary>
+        
         public void CancelPlacement()
         {
             selectedTowerPrefab = null;
